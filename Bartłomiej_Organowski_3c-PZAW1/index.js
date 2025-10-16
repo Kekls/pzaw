@@ -25,7 +25,7 @@ const serwer = http.createServer((req, res) => {
                 res.writeHead(404, {'Content-Type': 'text/plain'});
                 res.end('err 001 brak favicon.ico');
             } else{
-                res.writeHead(200, {'Content-Type': 'text/x-icon'});
+                res.writeHead(200, {'Content-Type': 'image/vnd.microsoft.icon'});
                 res.end(data);
             }
         });
@@ -38,3 +38,4 @@ const serwer = http.createServer((req, res) => {
 serwer.listen(PORT, () => {
     console.log(`serwer dziala na porcie http://localhost:${PORT}`);
 });
+
