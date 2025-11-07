@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+    <title>~Kleks</title>
+</head>
+<body>
+        <h1>Elo zelo !</h1>
+        <p>Aktualna godzina: <%= currentTime %></p>
+
+        <h2>Ksiega gosci:</h2>
+        <ul>
+            <% messages.forEach(msg => { %>
+                <li><%= msg %></li>
+            <% }); %>
+        </ul>
+
+        <h2>Dodaj wiadomość:</h2>
+        <form method="POST" action="/message">
+            <input type="text" name="message" placeholder="twoja wiadomość..." required>
+            <button type="submit">Wyslij</button>
+        </form>
+
+        <h2>Usun dane</h2>
+        <form method="POST" action="/clear">
+            <button type="submit">Bye bye dane</button>
+        </form>
+</body>
+</html>
