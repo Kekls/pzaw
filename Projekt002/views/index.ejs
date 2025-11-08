@@ -2,27 +2,39 @@
 <html lang="en">
 <head>  
     <title>~Kleks</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-        <h1>Elo zelo !</h1>
-        <p>Aktualna godzina: <%= currentTime %></p>
+    <div class="cssMain">
+        <h2 class="cssH2Time">Aktualna data i godzina:</h2><p><%= currentTime %></p>
 
         <h2>Ksiega gosci:</h2>
+        <h4>Opis wydarzenia | Deadline wydarzenia | Usuwanie pojedynczego rekordu</h4>
         <ul>
-            <% messages.forEach(msg => { %>
-                <li><%= msg %></li>
+            <% messages.forEach(msg => { 
+                const isOverdue = new Date(msg.date) < new Date();
+                const className = isOverdue ? 'overdue' : '';
+                let temp = `${msg.message} | ${msg.date}`;
+            %>
+                <li class="<%= className %>"><div class="cssListElement"><%= temp %><form method="POST" action="/delete/<%= msg.id %>">
+                    <button class="cssDel">Usuń</button>
+                </form></div></li>
             <% }); %>
         </ul>
 
         <h2>Dodaj wiadomość:</h2>
         <form method="POST" action="/message">
-            <input type="text" name="message" placeholder="twoja wiadomość..." required>
-            <button type="submit">Wyslij</button>
+            <label>Opis wydarzenia</label>
+            <input type="text" name="message" placeholder="twoja wiadomość..." required><br>
+            <label>Deadline wydarzenia</label>
+            <input type="date" name="date" required><br>
+            <button type="submit" class="cssSend">Wyslij</button>
         </form>
 
         <h2>Usun dane</h2>
         <form method="POST" action="/clear">
-            <button type="submit">Bye bye dane</button>
+            <button type="submit" class="cssByeBye">Bye bye dane</button>
         </form>
+    </div>
 </body>
 </html>

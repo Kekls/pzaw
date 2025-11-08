@@ -1,0 +1,86 @@
+body{
+    background-color: aliceblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button{
+    padding: 5px;
+    border: none;
+    border-radius: 0;
+}
+
+input{
+    padding: 10px 15px;
+    margin-left: 5px;
+    font-weight: 700;
+}
+
+.cssMain{
+    display: inline-block;
+    background-color: rgb(214, 233, 249);
+    padding: 50px;
+    border-radius: 15px;
+}
+
+.cssH2Time{
+    margin-top: 0;
+}
+
+.cssListElement{
+    display: flex;
+}
+
+.overdue {
+    color: rgb(161, 34, 34);
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+/*-----przyciski-----*/
+
+.cssDel{
+    background-color: rgb(121, 20, 20);
+    color: white;
+    transition: 0.1s;
+}
+
+.cssDel:hover{
+    background-color: rgb(161, 34, 34);
+}
+
+.cssDel:active{
+    background-color: rgb(225, 55, 55);
+
+}
+
+.cssSend{
+    background-color: rgb(23, 121, 20);
+    color: white;
+    transition: 0.1s;
+}
+
+.cssSend:hover{
+    background-color: rgb(38, 161, 34);
+}
+
+.cssSend:active{
+    background-color: rgb(61, 225, 55);
+
+}
+
+.cssByeBye{
+    background-color: black;
+    color: white;
+    transition: 0.1s;
+}
+
+.cssByeBye:hover{
+    background-color: rgb(58, 54, 54);
+}
+
+.cssByeBye:active{
+    background-color: white;
+    color: black;
+}
