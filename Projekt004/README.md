@@ -1,4 +1,4 @@
-# Projekt 03 - Serwer HTTP z Express z dynamicznymi widokami oraz bazą SQLite
+# Projekt 04 - Serwer HTTP z Express z dynamicznymi widokami oraz bazą SQLite
 
 ## Opis
 Aplikacja webowa Todo Kalendarz napisana w Express.js z dynamicznymi widokami EJS. Umożliwia dodawanie zadań z deadline'ami, wyświetlanie ich na liście, edytowanie danych oraz usuwanie pojedynczych wpisów lub wszystkich danych naraz. Dane są przechowywane w sposób nieulotny za pomocą bazy danych napisanej w języku SQLite.
