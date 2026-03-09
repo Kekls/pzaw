@@ -19,6 +19,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"ERROR: no test specified\" && exit 1",
-    "seedDB": "node ./db/seed.js"
+    "seedDB": "node ./db/seed.js",
+    "createDB": "node ./db/createDB.js"
   }
 }
