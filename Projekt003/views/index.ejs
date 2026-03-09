@@ -16,9 +16,14 @@
                 const className = isOverdue ? 'overdue' : '';
                 let temp = `${msg.messages} | ${msg.expiration_date}`;
             %>
-                <li class="<%= className %>"><div class="cssListElement"><%= temp %><form method="POST" action="/delete/<%= msg.id %>">
+                <li class="<%= className %>"><div class="cssListElement"><%= temp %>
+                <form method="POST" action="/edit/<%= msg.id %>">
+                    <button class="cssEdit">Edytuj</button>
+                </form>
+                <form method="POST" action="/delete/<%= msg.id %>">
                     <button class="cssDel">Usuń</button>
-                </form></div></li>
+                </form>
+                </div></li>
             <% }); %>
         </ul>
 

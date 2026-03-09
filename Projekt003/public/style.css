@@ -84,3 +84,18 @@ input{
     background-color: white;
     color: black;
 }
+
+.cssEdit{
+    background-color: yellow;
+    color: black;
+    transition: 0.1s;
+}
+
+.cssEdit:hover{
+    background-color: rgb(255, 255, 190);
+}
+
+.cssEdit:active{
+    background-color: white;
+    color: black;
+}

@@ -55,6 +55,16 @@ app.post('/delete/:id', (req, res) => {
     res.redirect('/');
 })
 
+app.post('/edit/:id', (req, res) => {
+    const id = req.params.id;
+    res.redirect(`/edit/${id}`);
+});
+
+app.get('/edit/:id', (req, res) => {
+    const id = req.params.id;
+    res.render('edit', { id });
+});
+
 app.listen(PORT, ()=> {
     console.log(`Serwer dziala na http://localhost:${PORT}`);
 });
