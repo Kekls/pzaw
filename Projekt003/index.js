@@ -104,6 +104,6 @@ app.get('/return', (req,res)=>{
     res.redirect('/');
 })
 
-app.listen(PORT, ()=> {
+app.listen(PORT, '0.0.0.0', ()=> {
     console.log(`Serwer dziala na http://localhost:${PORT}`);
 });
