@@ -3,9 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>~Kleks</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <p> test 1234</p>
+    <form method="post" action="/edited/<%= id %>">
+        <label>Opis wydarzenia</label>
+        <input type="text" name="message" placeholder="twoja wiadomość..."><br>
+        <label>Deadline wydarzenia</label>
+        <input type="date" name="date" ><br>
+        <button type="submit">Edytuj</button>
+    </form>
+
+    <form method="get" action="/return">
+        <button type="submit">Powrót</button>
+    </form>
 </body>
 </html>

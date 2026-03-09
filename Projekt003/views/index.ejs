@@ -17,7 +17,7 @@
                 let temp = `${msg.messages} | ${msg.expiration_date}`;
             %>
                 <li class="<%= className %>"><div class="cssListElement"><%= temp %>
-                <form method="POST" action="/edit/<%= msg.id %>">
+                <form method="get" action="/edit/<%= msg.id %>">
                     <button class="cssEdit">Edytuj</button>
                 </form>
                 <form method="POST" action="/delete/<%= msg.id %>">
