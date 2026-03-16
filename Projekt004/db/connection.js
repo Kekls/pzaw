@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import { execSync } from 'child_process';
 
-const dbFile = path.resolve('./db/TodoDatabase.db');
+const dbFile = path.resolve(process.env.DB_PATH || "./db/TodoDatabase.db");
 
 
 if (!fs.existsSync(dbFile)) {

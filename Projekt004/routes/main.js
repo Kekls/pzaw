@@ -3,14 +3,16 @@ import db from '../db/connection.js';
 const router = express.Router();
 
 router.get('/', (req,res) => {
-    db.all('SELECT * FROM todo', [], (err,rows) => {
+    db.all('SELECT * FROM todo WHERE userId = ?', [req.session.userId], (err,rows) => {
         if(err) {
             res.status(500).send('Błąd serwera');
             return;
         } else {
             const data = {
                 currentTime: new Date().toLocaleString('pl-PL'),
-                messages: rows//to jest to messages w index.ejs
+                messages: rows,//to jest to messages w index.ejs
+                isAdmin: req.session.isAdmin,
+                userId: req.session.userId
             };
             res.render('main', data);
         }      
@@ -19,8 +21,8 @@ router.get('/', (req,res) => {
 
 router.post('/message', (req, res) => {
 
-    db.run('INSERT INTO todo (messages, expiration_date) VALUES (?, ?)',
-    [req.body.message, req.body.date],
+    db.run('INSERT INTO todo (messages, expirationDate, userId) VALUES (?, ?, ?)',
+    [req.body.message, req.body.date, req.session.userId],
     function(err) {
         if (err) console.error('Błąd podczas wstawiania:', err.message);
         else console.log(`Dodano rekord ID: ${this.lastID}`);
@@ -29,7 +31,7 @@ router.post('/message', (req, res) => {
 })
 
 router.post('/clear', (req, res) => {
-    db.run("DELETE FROM todo",
+    db.run("DELETE FROM todo WHERE userId = ?", [req.session.userId],
     function(err){
         if (err) return console.error(err.message);
         else console.log(`Usunięto rekordy: ${this.changes}`);
@@ -45,6 +47,11 @@ router.post('/delete/:id', (req, res) => {
         else console.log(`Usunięto rekordy: ${this.changes}`);
     });
     res.redirect('/main');
+})
+
+router.post('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
 })
 
 export default router;

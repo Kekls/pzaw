@@ -22,10 +22,10 @@ router.post('/:id', (req, res) => {
         }
 
         if (mes == "") mes = row.messages;
-        if (date == "") date = row.expiration_date;
+        if (date == "") date = row.expirationDate;
 
         db.run(
-            "UPDATE todo SET messages = ?, expiration_date = ? WHERE id = ?",
+            "UPDATE todo SET messages = ?, expirationDate = ? WHERE id = ?",
             [mes, date, id],
             function(err) {
 

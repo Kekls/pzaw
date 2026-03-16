@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>  
-    <title>~Kleks</title>
-    <link rel="stylesheet" href="/style.css">
-</head>
+<%- include('partials/head', {title: "Ekran główny myTodos"}) %>
 <body>
     <div class="cssMain">
         <h2 class="cssH2Time">Aktualna data i godzina:</h2><p><%= currentTime %></p>
@@ -12,9 +9,9 @@
         <h4>Opis wydarzenia | Deadline wydarzenia | Usuwanie pojedynczego rekordu</h4>
         <ul>
             <% messages.forEach(msg => { 
-                const isOverdue = new Date(msg.expiration_date) < new Date();
+                const isOverdue = new Date(msg.expirationDate) < new Date();
                 const className = isOverdue ? 'overdue' : '';
-                let temp = `${msg.messages} | ${msg.expiration_date}`;
+                let temp = `${msg.messages} | ${msg.expirationDate}`;
             %>
                 <li class="<%= className %>"><div class="cssListElement"><%= temp %>
                 <form method="get" action="/edit/<%= msg.id %>">
@@ -39,6 +36,14 @@
         <h2>Usun dane</h2>
         <form method="POST" action="/main/clear">
             <button type="submit" class="cssByeBye">Bye bye dane</button>
+        </form>
+
+        <form method="POST" action="/main/adminPanel" <% if(!isAdmin) { %>style="display: none;" <% } %>>
+            <button type="submit">Panel Administratora</button>    
+        </form>
+
+        <form action="/main/logout" method="post">
+            <button type="submit">Wyloguj</button>    
         </form>
     </div>
 </body>

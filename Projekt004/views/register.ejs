@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head', {title: "Rejestracja myTodos"}) %>
+<body>
+    <div class="cssMain">
+        <form action="/register/register" method="post">
+            <div style="color: red; display: <%= errorLogin ? 'block' : 'none' %>"><%= errorLogin %></div>
+            <label>Nazwa użytkownika: </label><input type="text" name="login" value="<%= login %>" required><br>
+            <div style="color: red; display: <%= errorPassword ? 'block' : 'none' %>"><%= errorPassword %></div>
+            <label>Hasło uzytkownika: </label><input type="password" name="password" value="<%= password %>" required><br>
+            <div style="color: red; display: <%= errorPasswordAgain ? 'block' : 'none' %>"><%= errorPasswordAgain %></div>
+            <label>Powtórz hasło użytkownika: </label><input type="password" name="passwordAgain" value="<%= passwordAgain %>" required><br>
+            <button type="submit">Zarejestruj</button>
+        </form>
+        <a href="/">powrót</a>
+    </div>
+</body>
+</html>
