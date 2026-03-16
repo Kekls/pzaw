@@ -1,7 +1,6 @@
 import express from 'express';
 import db from '../db/connection.js';
 import bcrypt from 'bcrypt';
-import session from 'express-session';
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -22,6 +21,7 @@ router.post('/login', (req,res) => {
 
             req.session.userId = row.id;
             req.session.isAdmin = row.isAdmin;
+            req.session.URLfrom = '/login';
             res.redirect('/main');
         });    
     });

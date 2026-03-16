@@ -3,6 +3,9 @@ import db from '../db/connection.js';
 const router = express.Router();
 
 router.get('/', (req,res) => {
+    if(!req.session.userId)
+        return res.redirect('/');
+    req.session.URLfrom = '/main';
     db.all('SELECT * FROM todo WHERE userId = ?', [req.session.userId], (err,rows) => {
         if(err) {
             res.status(500).send('Błąd serwera');

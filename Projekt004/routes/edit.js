@@ -3,8 +3,10 @@ import db from '../db/connection.js';
 const router = express.Router();
 
 router.get('/:id', (req, res) => {
+    if(!req.session.userId)
+        return res.redirect('/');
     const id = req.params.id;
-    
+    req.session.URLfrom = '/edit';
     res.render('edit', { id });
 });
 

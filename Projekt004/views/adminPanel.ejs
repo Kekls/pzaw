@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head', {"title: Panel administratora myTodos"})
+<body>
+    <div class="cssMain">
+        <h2 class="cssH2Time">Aktualna data i godzina:</h2><p><%= currentTime %></p>
+        <a href="/main">Powrót</a>
+    </div>
+
+    <div class="cssPanelLeft">
+        <table>
+            <tr>
+                <th>Opis wydarzenia</th>
+                <th>Deadline wydarzenia</th>
+                <th>User id</th>
+                <th>Edytuj</th>
+                <th>Usuń</th>
+            </tr>
+            <% messages.forEach(msg => { 
+                const isOverdue = new Date(msg.expirationDate) < new Date();
+                const className = isOverdue ? 'overdue' : '';
+            %>
+            <tr>
+                <td class="<%= className %>"><%= msg.messages %></td>
+                <td class="<%= className %>"><%= msg.expirationDate %></td>
+                <td><%= msg.userId %></td>
+                <td>
+                    <form method="get" action="/edit/<%= msg.id %>">
+                    <button class="cssEdit">Edytuj</button></form>
+                </td>
+                <td>
+                    <form method="POST" action="/main/delete/<%= msg.id %>">
+                    <button class="cssDel">Usuń</button></form>
+                </td>
+            </tr>
+            <% }); %>
+        </table>
+    </div>
+    <div class="cssPanelRight">
+        <table>
+            <tr>
+                <th>Nazwa użytkownika</th>
+                <th>Edytuj</th>
+                <th>Usuń</th>
+            </tr>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td><%= user.login %></td>
+                    <td>
+                        <form action="/editUser/<%= user.id %>" method="get">
+                        <button class="cssEdit" type="submit">Usuń</button></form>
+                    </td>
+                    <td>
+                        <form action="/adminPanel/deleteUser/<%= user.id %>" method="post">
+                        <button class="cssDel" type="submit">Usuń</button></form>
+                    </td>
+                </tr>
+            <% }); %>
+        </table>
+    </div>
+</body>
+</html>

@@ -5,24 +5,32 @@
     <div class="cssMain">
         <h2 class="cssH2Time">Aktualna data i godzina:</h2><p><%= currentTime %></p>
 
-        <h2>Ksiega gosci:</h2>
-        <h4>Opis wydarzenia | Deadline wydarzenia | Usuwanie pojedynczego rekordu</h4>
-        <ul>
+        <h2>myTodos:</h2>
+        <table>
+            <tr>
+                <th>Opis wydarzenia</th>
+                <th>Deadline wydarzenia</th>
+                <th>Edycja pojedynczego rekordu</th>
+                <th>Usuwanie pojdeynczego rekordu</th>
+            </tr>
             <% messages.forEach(msg => { 
                 const isOverdue = new Date(msg.expirationDate) < new Date();
                 const className = isOverdue ? 'overdue' : '';
-                let temp = `${msg.messages} | ${msg.expirationDate}`;
             %>
-                <li class="<%= className %>"><div class="cssListElement"><%= temp %>
-                <form method="get" action="/edit/<%= msg.id %>">
-                    <button class="cssEdit">Edytuj</button>
-                </form>
-                <form method="POST" action="/main/delete/<%= msg.id %>">
-                    <button class="cssDel">Usuń</button>
-                </form>
-                </div></li>
+            <tr>
+                <td class="<%= className %>"><%= msg.messages %></td>
+                <td class="<%= className %>"><%= msg.expirationDate %></td>
+                <td>
+                    <form method="get" action="/edit/<%= msg.id %>">
+                    <button class="cssEdit">Edytuj</button></form>
+                </td>
+                <td>
+                    <form method="POST" action="/main/delete/<%= msg.id %>">
+                    <button class="cssDel">Usuń</button></form>
+                </td>
+            </tr>
             <% }); %>
-        </ul>
+        </table>
 
         <h2>Dodaj wiadomość:</h2>
         <form method="POST" action="/main/message">
@@ -37,10 +45,11 @@
         <form method="POST" action="/main/clear">
             <button type="submit" class="cssByeBye">Bye bye dane</button>
         </form>
-
-        <form method="POST" action="/main/adminPanel" <% if(!isAdmin) { %>style="display: none;" <% } %>>
+        <% if(!isAdmin) { %>
+        <form method="POST" action="/main/adminPanel" >
             <button type="submit">Panel Administratora</button>    
         </form>
+        <% } %>
 
         <form action="/main/logout" method="post">
             <button type="submit">Wyloguj</button>    
