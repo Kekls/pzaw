@@ -5,7 +5,6 @@ const router = express.Router();
 router.get('/', (req,res) => {
     if(!req.session.userId)
         return res.redirect('/');
-    req.session.URLfrom = '/main';
     db.all('SELECT * FROM todo WHERE userId = ?', [req.session.userId], (err,rows) => {
         if(err) {
             res.status(500).send('Błąd serwera');
@@ -48,8 +47,15 @@ router.post('/delete/:id', (req, res) => {
     function(err) {
         if (err) return console.error(err.message);
         else console.log(`Usunięto rekordy: ${this.changes}`);
+
+        const allowed = ['/main', '/adminPanel'];
+        const redirectTo = allowed.includes(req.body.URLfrom) ? req.body.URLfrom : '/';
+        res.redirect(redirectTo); 
     });
-    res.redirect('/main');
+})
+
+router.post('/adminPanel', (req, res) => {
+    res.redirect('/adminPanel')
 })
 
 router.post('/logout', (req, res) => {

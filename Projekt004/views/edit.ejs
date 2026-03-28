@@ -8,10 +8,12 @@
             <input type="text" name="message" placeholder="twoja wiadomość..."><br>
             <label>Deadline wydarzenia</label>
             <input type="date" name="date" ><br>
+            <input type="hidden" name="URLfrom" value="<%= URLfrom %>">
             <button type="submit">Edytuj</button>
         </form>
         
-        <a href="/main">Powrót</a>
+        <% if(URLfrom === '/main') { %> <a href="/main">Powrót</a> <% } 
+        else if (URLfrom === '/adminPanel') { %> <a href="/adminPanel">Powrót</a> <% } %>
 
     </div>
 </body>

@@ -6,8 +6,8 @@ router.get('/:id', (req, res) => {
     if(!req.session.userId)
         return res.redirect('/');
     const id = req.params.id;
-    req.session.URLfrom = '/edit';
-    res.render('edit', { id });
+    const URLfrom = req.query.URLfrom;
+    res.render('edit', { id, URLfrom });
 });
 
 router.post('/:id', (req, res) => {
@@ -23,6 +23,9 @@ router.post('/:id', (req, res) => {
             return;
         }
 
+        if (row.userId !== req.session.userId && !req.session.isAdmin)
+            return res.status(403).send('Brak dostępu')
+
         if (mes == "") mes = row.messages;
         if (date == "") date = row.expirationDate;
 
@@ -36,8 +39,10 @@ router.post('/:id', (req, res) => {
                 } else {
                     console.log(`Edytowano rekordy: ${this.changes}`);
                 }
-
-                res.redirect('/main');
+                
+                const allowed = ['/main', '/adminPanel'];
+                const redirectTo = allowed.includes(req.body.URLfrom) ? req.body.URLfrom : '/';
+                res.redirect(redirectTo);                  
             }
         );
     });

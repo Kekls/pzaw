@@ -22,10 +22,12 @@
                 <td class="<%= className %>"><%= msg.expirationDate %></td>
                 <td>
                     <form method="get" action="/edit/<%= msg.id %>">
+                    <input type="hidden" name="URLfrom" value="/main">
                     <button class="cssEdit">Edytuj</button></form>
                 </td>
                 <td>
                     <form method="POST" action="/main/delete/<%= msg.id %>">
+                    <input type="hidden" name="URLfrom" value="/main">
                     <button class="cssDel">Usuń</button></form>
                 </td>
             </tr>
@@ -45,7 +47,7 @@
         <form method="POST" action="/main/clear">
             <button type="submit" class="cssByeBye">Bye bye dane</button>
         </form>
-        <% if(!isAdmin) { %>
+        <% if(isAdmin) { %>
         <form method="POST" action="/main/adminPanel" >
             <button type="submit">Panel Administratora</button>    
         </form>

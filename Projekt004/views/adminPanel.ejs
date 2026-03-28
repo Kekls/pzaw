@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/head', {"title: Panel administratora myTodos"})
+<%- include('partials/head', { title: "Panel administratora myTodos" }) %>
 <body>
     <div class="cssMain">
         <h2 class="cssH2Time">Aktualna data i godzina:</h2><p><%= currentTime %></p>
@@ -26,10 +26,12 @@
                 <td><%= msg.userId %></td>
                 <td>
                     <form method="get" action="/edit/<%= msg.id %>">
+                    <input type="hidden" name="URLfrom" value="/adminPanel">
                     <button class="cssEdit">Edytuj</button></form>
                 </td>
                 <td>
                     <form method="POST" action="/main/delete/<%= msg.id %>">
+                    <input type="hidden" name="URLfrom" value="/adminPanel">
                     <button class="cssDel">Usuń</button></form>
                 </td>
             </tr>
@@ -47,8 +49,9 @@
                 <tr>
                     <td><%= user.login %></td>
                     <td>
-                        <form action="/editUser/<%= user.id %>" method="get">
-                        <button class="cssEdit" type="submit">Usuń</button></form>
+                        <form action="/adminPanel/editUser/<%= user.id %>" method="get">
+                        <input type="hidden" name="URLfrom" value="/adminPanel">
+                        <button class="cssEdit" type="submit">Edytuj</button></form>
                     </td>
                     <td>
                         <form action="/adminPanel/deleteUser/<%= user.id %>" method="post">
