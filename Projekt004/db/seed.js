@@ -10,53 +10,54 @@ const insertTestData = [
     ['test5', new Date().toLocaleString('pl-PL')]
 ];
 
-async function seedDatabase() {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
-    const question = (text) => new Promise(resolve => rl.question(text, resolve));
+try {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
 
-    for (let i = 0; i < 2; i++) {
-        const login = await question('Podaj login: ');
-        const password = await question('Podaj hasło: ');
-        const hash = await argon2.hash(password);
+  const question = (text) =>
+    new Promise(resolve => rl.question(text, resolve));
 
-        await new Promise((resolve, reject) => {
-    db.run('INSERT INTO users (login, password, isAdmin) VALUES (?, ?, ?)',
-        [login, hash, 0],
-        function(err) {
-            if (err) return reject(err);
-            console.log('Użytkownik utworzony pomyślnie!');
-            const userId = this.lastID;
+  const insertUser = db.prepare(
+    'INSERT INTO users (login, password, isAdmin) VALUES (?, ?, ?)'
+  );
 
-            const inserts = insertTestData.map(([msg, date]) => 
-                new Promise((res, rej) => {
-                    db.run(
-                        'INSERT INTO todo (userId, messages, expirationDate) VALUES (?, ?, ?)',
-                        [userId, msg, date],
-                        function(err) {
-                            if (err) rej(err);
-                            else {
-                                console.log(`Dodano rekord ID: ${this.lastID}`);
-                                res();
-                            }
-                        }
-                    );
-                })
-            );
+  const insertTodo = db.prepare(
+    'INSERT INTO todo (userId, messages, expirationDate) VALUES (?, ?, ?)'
+  );
 
-            Promise.all(inserts).then(resolve).catch(reject);
-        }
-    );
-});
+  const checkUser = db.prepare(
+    'SELECT * FROM users WHERE login = ?'
+  );
+
+  for (let i = 0; i < 2; i++) {
+    const login = await question('Podaj login: ');
+    const password = await question('Podaj hasło: ');
+    const hash = await argon2.hash(password);
+
+    const loginUser = checkUser.get(login);
+
+    if (loginUser) {
+      console.error('Użytkownik o takim loginie już istnieje!');
+      continue;
     }
 
-    rl.close();
-    db.close((err) => {
-        if (err) console.error('Błąd przy zamykaniu bazy:', err.message);
-        else console.log('Połączenie z bazą zakończone.');
-    });
-}
+    const result = insertUser.run(login, hash, 0);
+    const userId = result.lastInsertRowid;
 
-seedDatabase();
+    console.log(`Użytkownik ${login} utworzony pomyślnie!`);
+
+    for (const [msg, date] of insertTestData) {
+      const todoResult = insertTodo.run(userId, msg, date);
+      console.log(`Dodano rekord ID: ${todoResult.lastInsertRowid}`);
+    }
+  }
+
+  rl.close();
+
+} catch (err) {
+  console.error(err);
+  rl.close();
+  process.exit(1);
+}

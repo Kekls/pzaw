@@ -1,4 +1,4 @@
-import sqlite3 from 'sqlite3';
+import Database from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
 import { execSync } from 'child_process';
@@ -11,9 +11,14 @@ if (!fs.existsSync(dbFile)) {
   execSync('node ./db/createDB.js', { stdio: 'inherit' }); // blokuje do momentu ukończenia createDB.js
 }
 
-const db = new sqlite3.Database(dbFile, (err) => {
-  if (err) console.error('Błąd połączenia z bazą:', err.message);
-  else console.log('Połączono z bazą SQLite:', dbFile);
-});
+let db;
+
+try {
+  db = new Database(dbFile);
+  console.log("DB OK:", dbFile);
+} catch (err) {
+  console.error("DB FAIL:", err.message);
+  process.exit(1);
+}
 
 export default db;

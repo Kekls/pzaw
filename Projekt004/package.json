@@ -9,11 +9,11 @@
   "license": "ISC",
   "dependencies": {
     "argon2": "^0.44.0",
+    "better-sqlite3": "^12.10.0",
     "dotenv": "^17.3.1",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "express-session": "^1.19.0",
-    "sqlite3": "^5.1.7"
+    "express-session": "^1.19.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
