@@ -9,12 +9,12 @@ const trueAction = action === "/register/register" ? "/register/register" : "/ad
 <body>
     <div class="cssMain">
         <form action="<%= trueAction %>" method="post">
-            <div style="color: red; display: <%= errorLogin ? 'block' : 'none' %>"><%= errorLogin %></div>
             <label>Nazwa użytkownika: </label><input type="text" name="login" value="<%= login %>" required><br>
-            <div style="color: red; display: <%= errorPassword ? 'block' : 'none' %>"><%= errorPassword %></div>
+            <div style="color: red; display: <%= errorLogin ? 'block' : 'none' %>"><%= errorLogin %></div>
             <label>Hasło uzytkownika: </label><input type="password" name="password" value="<%= password %>" required><br>
-            <div style="color: red; display: <%= errorPasswordAgain ? 'block' : 'none' %>"><%= errorPasswordAgain %></div>
+            <div style="color: red; display: <%= errorPassword ? 'block' : 'none' %>"><%= errorPassword %></div>
             <label>Powtórz hasło użytkownika: </label><input type="password" name="passwordAgain" value="<%= passwordAgain %>" required><br>
+            <div style="color: red; display: <%= errorPasswordAgain ? 'block' : 'none' %>"><%= errorPasswordAgain %></div>
             <% if (action === "/adminPanel") {%>
             <label>Administrator ?</label><input type="checkbox" name="isAdmin"><br>
             <% } %>

@@ -8,34 +8,49 @@ router.get('/', (req,res) => {
     res.render('userForm', {...defaultInfo, login: null, password: null, passwordAgain: null, title: "Rejestracja myTodos", action: "/register/register", id: null});
 })
 
-router.post('/register', (req, res) => {
-    let info = {...defaultInfo, login: req.body.login , password: req.body.password,  passwordAgain: req.body.passwordAgain, title: "Rejestracja myTodos", action: "/register/register", id : null};
-    db.get('SELECT 1 FROM users WHERE login = ? LIMIT 1', [req.body.login], async (err, row) => {
-        if (err) return console.error(err);
-        if (row) info.errorLogin = "Ten login jest już zajęty!";
+router.post('/register', async (req, res) => {
+    const password = req.body.password ?? '';
+    const passwordAgain = req.body.passwordAgain ?? '';
+    
+    const info = {
+        ...defaultInfo,
+        login: req.body.login,
+        password: password,
+        passwordAgain: passwordAgain,
+        title: "Rejestracja myTodos",
+        action: "/register/register",
+        id: null
+    };
 
-        if (req.body.password !== req.body.passwordAgain) info.errorPasswordAgain = "Hasła nie są takie same!";
+    if (password.length < 6 || passwordAgain.length < 6) {
+        if(password.length < 6) info.errorPassword =  "Hasło musi mieć min. 6 znaków";
+        if(passwordAgain.length < 6) info.errorPasswordAgain =  "Hasło musi mieć min. 6 znaków";
+        return res.render('userForm', info);
+    }
 
-        if (info.errorLogin || info.errorPasswordAgain || info.errorPassword) {
+    if (password !== passwordAgain) {
+        info.errorPasswordAgain = "Hasła nie są takie same!";
+        return res.render('userForm', info);
+    }
+
+    try {
+        const hash = await argon2.hash(password);
+
+        db.prepare(
+            'INSERT INTO users (login, password) VALUES (?, ?)'
+        ).run(req.body.login, hash);
+
+        res.redirect('/');
+    } catch (err) {
+        console.error(err);
+
+        if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+            info.errorLogin = "Ten login jest już zajęty!";
             return res.render('userForm', info);
         }
 
-        try{
-            const hash =  await argon2.hash(req.body.password) 
-
-            db.run('INSERT INTO users (login, password) VALUES (?, ?)', [req.body.login, hash], (err) => {
-                if (err) {
-                    info.errorLogin = "Błąd przy dodawaniu do bazy";
-                    return res.render('userForm', info);
-                }
-                res.redirect('/');
-            });
-        }catch(err){
-            console.error(err);
-            info.errorPassword = "Błąd serwera, spróbuj ponownie";
-            return res.render('userForm', info);
-        }
-    });
-}); 
-
+        info.errorPassword = "Błąd serwera, spróbuj ponownie";
+        return res.render('userForm', info);
+    }
+});
 export default router;

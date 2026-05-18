@@ -7,6 +7,9 @@ import registerRoutes from './routes/register.js';//ekran rejestracji
 import adminPanel from './routes/adminPanel.js';//ekran panelu administratora
 import session from 'express-session';
 
+import { requireAuth } from './middlewares/requireAuth.js';
+import { requireAdmin } from './middlewares/requireAdmin.js';
+
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -21,10 +24,11 @@ app.use(session({//ustawienia sesji
 }));
 
 app.use(express.urlencoded({extended: true}));
-app.use('/main', mainRoutes);
-app.use('/edit', editRoutes);
+app.use('/main', requireAuth, mainRoutes);
+app.use('/edit', requireAuth, editRoutes);
+app.use('/adminPanel', requireAuth, requireAdmin, adminPanel);
+
 app.use('/register', registerRoutes);
-app.use('/adminPanel', adminPanel);
 app.use('/', loginRoutes);
 
 app.listen(PORT, '0.0.0.0', ()=> {

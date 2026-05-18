@@ -37,6 +37,31 @@ Aplikacja webowa "myTodos" - Kalendarz napisana w Express.js z dynamicznymi wido
 npm install
 ```
 
+## Obsługiwane ścieżki
+
+- login.js
+    * GET  / - strona logowania
+    * POST /login - obsługa logowania
+- register.js
+    * GET  /register/ - strona rejestracji
+    * POST /register/register - obsługa rejestracji
+- main.js
+    * GET  /main - strona główna
+    * POST /main/message - dodanie todo
+    * POST /main/clear - usunięcie wszystkich todo użytkownika
+    * POST /main/delete/:id - usunięcie wybranego todo użytkownika
+    * POST /main/adminPanel - redirect do panelu admina (jeśli isAdmin)
+    * POST /main/logout - Przycisk wylogowania
+- edit.js
+    * GET  /edit/:id - strona edycji danych o danym id
+    * POST /edit/:id - edycja danych o danym id
+- adminPanel.js
+    * GET  /adminPanel/ - strona panelu administracji
+    * POST /adminPanel/deleteUser/:id - usunięcie użytkownika
+    * GET  /adminPanel/editUser/:id - przycisk przekierowujący do panelu edycji użytkownika o danym id
+    * POST /adminPanel/editUser/:id - edycja użytkownika o danym id
+
+
 ## Plik .env
 
 Przed uruchomieniem aplikacji można utworzyć plik `.env`, który będzie przechowywał wrażliwe dane konfiguracyjne:
@@ -94,6 +119,9 @@ projekt004/
 │   ├── seed.js
 │   ├── createDB.js
 │   └── TodoDatabase.db          # lokalizacja domyślna (brak pliku .env)
+├── middlewares/
+│   ├── requireAdmin.js
+│   └── requireAuth.js
 ├── public/
 │   ├── style.css
 │   └── images/

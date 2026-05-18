@@ -38,6 +38,11 @@ try {
 
     const loginUser = checkUser.get(login);
 
+    if (password.length < 6){
+      console.error('Hasło musi mieć min. 6 znaków');
+      continue;
+    }
+
     if (loginUser) {
       console.error('Użytkownik o takim loginie już istnieje!');
       continue;
